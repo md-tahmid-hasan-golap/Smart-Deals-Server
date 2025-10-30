@@ -45,14 +45,21 @@ async function run() {
      })
 
 
-      // get api
+      // get api All
       app.get('/allProducts', async(req, res) => {
         const result = await productsCollactions.find().toArray()
         res.send(result)
       })
 
-      // get api singel api
 
+       // get api some data
+       app.get('/someProducts', async(req, res) => {
+        const result = await productsCollactions.find().limit(6).toArray()
+        res.send(result)
+       })
+
+
+      // get api singel api Details
       app.get('/singelProduct/:id', async(req, res) => {
         const id = req.params.id
         const queary = {_id: new ObjectId(id)}
@@ -60,7 +67,8 @@ async function run() {
         res.send(result)
       })
 
-     // patch api
+
+     // patch api Siggel update
      app.patch('/productsUpdate/:id', async(req, res) => {
         const id = req.params.id
         const updateProducts = req.body
