@@ -76,7 +76,7 @@ async function run() {
         const update = {
             $set:updateProducts
         }
-        const result = await productsCollactions.updateMany(queary, update)
+        const result = await productsCollactions.updateOne(queary, update)
         res.send(result)
      })
 
