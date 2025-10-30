@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
 const app = express();
 const port = process.env.PORT || 5000;
@@ -32,8 +32,55 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
+     // all collaction
+
+     const productsCollactions = client.db("smartDB").collection("products")
 
 
+     // post api methord
+     app.post('/products', async(req, res) => {
+        const newProducts = req.body;
+        const result = await productsCollactions.insertOne(newProducts)
+        res.send(result)
+     })
+
+
+      // get api
+      app.get('/allProducts', async(req, res) => {
+        const result = await productsCollactions.find().toArray()
+        res.send(result)
+      })
+
+      // get api singel api
+
+      app.get('/singelProduct/:id', async(req, res) => {
+        const id = req.params.id
+        const queary = {_id: new ObjectId(id)}
+        const result = await productsCollactions.findOne(queary)
+        res.send(result)
+      })
+
+     // patch api
+     app.patch('/productsUpdate/:id', async(req, res) => {
+        const id = req.params.id
+        const updateProducts = req.body
+        const queary = {_id: new ObjectId(id)}
+        const update = {
+            $set:updateProducts
+        }
+        const result = await productsCollactions.updateMany(queary, update)
+        res.send(result)
+     })
+
+
+
+     // delete api
+     app.delete('/productsDelete/:id', async(req, res) => {
+        const id = req.params.id
+        const queary = {_id: new ObjectId(id)}
+        const result = await productsCollactions.deleteOne(queary)
+        res.send(result)
+     })
 
 
 
