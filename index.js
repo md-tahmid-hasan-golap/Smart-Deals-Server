@@ -71,6 +71,14 @@ async function run() {
          })
 
 
+         // my products
+         app.get('/myProducts/:email', async(req, res) => {
+            const email = req.params.email
+            const queary = {email}
+            const result = await productsCollactions.find(queary).toArray()
+            res.send(result)
+         })
+
       // get api singel api Details
       app.get('/singelProduct/:id', async(req, res) => {
         const id = req.params.id
