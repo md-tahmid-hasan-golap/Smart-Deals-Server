@@ -60,12 +60,17 @@ async function run() {
 
 
          // short api
+         app.get('/skipProducts', async(req, res) => {
+            const result = await productsCollactions.find().sort({price_min: 1}).skip(2).limit(2).toArray()
+            res.send(result)
+         })
+         // skip api
          app.get('/shortProducts', async(req, res) => {
             const result = await productsCollactions.find().sort({price_min: 1}).toArray()
             res.send(result)
          })
 
-         
+
       // get api singel api Details
       app.get('/singelProduct/:id', async(req, res) => {
         const id = req.params.id
